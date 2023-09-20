@@ -28,7 +28,7 @@ with col1:
         raw = join_geom(uploaded_file)
         check = raw['value'].isnull().values.all()
         if check:
-            st.write('Error: Expecting 3 columns input, only 2 columns found.')
+            st.subheader('Error: Expecting 3 columns input, only 2 columns found.')
     # define color scheme
     colorScheme = st.selectbox('Select color palette', ('set1', "dark2", 'set2','viridis', 'turbo'))
 
@@ -75,6 +75,4 @@ with col2:
             st.altair_chart(full_chart) #, use_container_width=True
 
         with tab2:
-            showData = st.checkbox('show data')
-            if showData:
-                st.write(raw)
+            st.write(raw)

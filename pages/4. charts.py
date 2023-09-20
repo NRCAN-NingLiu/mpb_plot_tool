@@ -16,8 +16,8 @@ with col1:
 
     ylim = st.slider('Select y axis display range', 0.01, 0.1, 0.05)
 
-    spread = st.number_input('Set min spreading threshold', min_value=0.001, max_value=0.08, value=0.02)
-    detect = st.number_input('Set min detectable threshold', min_value=0.001, max_value=0.016, value=0.008)
+    spread = st.number_input('Set min spreading threshold', value=0.02, format="%.4f")
+    detect = st.number_input('Set min detectable threshold', value=0.008, format="%.4f")
 
     confirmButton = st.button('Confirm')
 
@@ -33,13 +33,16 @@ with col2:
             tooltip=['gridID', 'period', 'value']
         )
         
-        detectLine = alt.Chart(pd.DataFrame({'y': [detect]})).mark_line().encode(
+        detectLine = alt.Chart(pd.DataFrame({'y': [0.008]})).mark_line().encode(
             y='y',
             # color='g'
         )
-        spreadLine = alt.Chart(pd.DataFrame({'y': [spread]})).mark_line().encode(
+        spreadLine = alt.Chart(pd.DataFrame({'y': [0.02]})).mark_line().encode(
             y='y',
             # color='m'
+        ).properties(
+            width=600,
+            height=600
         )
         full_chart = chart + detectLine + spreadLine
         st.altair_chart(full_chart)

@@ -42,11 +42,13 @@ def get_color(cmap, iter):
     palette = list(reversed(sns.color_palette(cmap, iter).as_hex()))
     return palette
 
-dict = {'q.txt': 'first treated', 'u.txt': 'first infested', 'v.txt': 'first detectable', 'z.txt': 'first spread propagules'}
+# dict = {'q.txt': 'first treated', 'u.txt': 'first infested', 'v.txt': 'first detectable', 'z.txt': 'first spread propagules'}
 # # Define marker symbols for different insect density values
 marker_symbols = ['.', 'o', 'v', '^', '<', '>', '8', 's', 'p', '*', 'h', 'H', 'D', 'd', 'P', 'X']
 uploaded_files = st.file_uploader(label = 'select files', type = ['txt', 'csv'], accept_multiple_files=True)
 st.subheader('Recommend to upload q.txt, u.txt, v.txt, and z.txt only')
+st.write(pd.DataFrame({'file name': ['q', 'u', 'v', 'z'], 'meaning': ['treated', 'infested', 'detectable', 'spread propagules'],}))
+
 # define color scheme
 colorScheme = st.selectbox('Select color palette', ('Paired', "viridis",'Spectral', 'Set2'))
 if colorScheme is not None:
@@ -55,9 +57,9 @@ if colorScheme is not None:
 confirmButton = st.button('Confirm')
 
 col1, col2 = st.columns(2)
-with col1:
-    if confirmButton:
-        for uploaded_file in uploaded_files:
+if confirmButton:
+    for uploaded_file in uploaded_files: 
+        with col1:
             if uploaded_file.id == 1:
                 data = first_time(join_geom(uploaded_file))
                 fig, ax = plt.subplots()
@@ -70,48 +72,23 @@ with col1:
                 plt.axis('off')
                 plt.title(uploaded_file.name)
                 st.pyplot(fig)
-with col2:
-    if confirmButton:
-        for uploaded_file in uploaded_files:
-            try: 
-                if uploaded_file.id == 2:
-                    data = first_time(join_geom(uploaded_file))
-                    # st.write(data.head())
-                    fig, ax = plt.subplots()
-                    for i in set(data['period']):
-                        data_i = data.loc[data['period'] == i]
-                        ax.scatter(x=data_i['x'], y=data_i['y'], c=period_palette[i], marker=marker_symbols[i], label=i, edgecolors='none')
-                    plt.xlim(-1300000, -800000)
-                    plt.ylim(7290000, 7850000)
-                    ax.legend()
-                    plt.axis('off')
-                    plt.title(uploaded_file.name)
-                    st.pyplot(fig)
-            except:
-                st.write('no plot to display here.')
 
-with col1:
-    if confirmButton:
-        for uploaded_file in uploaded_files:
-            try: 
-                if uploaded_file.id == 3:
-                    data = first_time(join_geom(uploaded_file))
-                    fig, ax = plt.subplots()
-                    for i in set(data['period']):
-                        data_i = data.loc[data['period'] == i]
-                        ax.scatter(x=data_i['x'], y=data_i['y'], c=period_palette[i], marker=marker_symbols[i], label=i, edgecolors='none')
-                    plt.xlim(-1300000, -800000)
-                    plt.ylim(7290000, 7850000)
-                    ax.legend()
-                    plt.axis('off')
-                    plt.title(uploaded_file.name)
-                    st.pyplot(fig)
-            except:
-                st.write('no plot to display here.')
-with col2:
-    if confirmButton:
-        for uploaded_file in uploaded_files:
-            if uploaded_file.id == 4:
+        with col2:
+            if uploaded_file.id == 2:
+                data = first_time(join_geom(uploaded_file))
+                fig, ax = plt.subplots()
+                for i in set(data['period']):
+                    data_i = data.loc[data['period'] == i]
+                    ax.scatter(x=data_i['x'], y=data_i['y'], c=period_palette[i], marker=marker_symbols[i], label=i, edgecolors='none')
+                plt.xlim(-1300000, -800000)
+                plt.ylim(7290000, 7850000)
+                # ax.legend()
+                plt.axis('off')
+                plt.title(uploaded_file.name)
+                st.pyplot(fig)
+
+        with col1:
+            if uploaded_file.id == 3:
                 data = first_time(join_geom(uploaded_file))
                 fig, ax = plt.subplots()
                 for i in set(data['period']):
@@ -120,6 +97,20 @@ with col2:
                 plt.xlim(-1300000, -800000)
                 plt.ylim(7290000, 7850000)
                 ax.legend()
+                plt.axis('off')
+                plt.title(uploaded_file.name)
+                st.pyplot(fig)
+
+        with col2:
+            if uploaded_file.id == 4:
+                data = first_time(join_geom(uploaded_file))
+                fig, ax = plt.subplots()
+                for i in set(data['period']):
+                    data_i = data.loc[data['period'] == i]
+                    ax.scatter(x=data_i['x'], y=data_i['y'], c=period_palette[i], marker=marker_symbols[i], label=i, edgecolors='none')
+                plt.xlim(-1300000, -800000)
+                plt.ylim(7290000, 7850000)
+                # ax.legend()
                 plt.axis('off')
                 plt.title(uploaded_file.name)
                 st.pyplot(fig)
