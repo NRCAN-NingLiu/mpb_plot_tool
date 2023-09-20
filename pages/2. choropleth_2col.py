@@ -41,7 +41,7 @@ with col2:
     if confirmButton:
         tab1, tab2 = st.tabs(['plot', 'raw data'])
         with tab1:
-            fig, ax = plt.subplots(1, 1, figsize=(5, 5))
+            fig, ax = plt.subplots(1, 1, figsize=(4, 4))
             data.plot(ax=ax,
                 column="value",  # Data to plot
                 scheme=classScheme,  # Classification scheme
