@@ -31,19 +31,15 @@ with col2:
             alt.X('period'), 
             alt.Y('value').scale(domain=(0, ylim)),
             tooltip=['gridID', 'period', 'value']
-        )
-        
-        detectLine = alt.Chart(pd.DataFrame({'y': [0.008]})).mark_line().encode(
-            y='y',
-            # color='g'
-        )
-        spreadLine = alt.Chart(pd.DataFrame({'y': [0.02]})).mark_line().encode(
-            y='y',
-            # color='m'
         ).properties(
             width=600,
             height=600
         )
+        
+        detectLine = alt.Chart(pd.DataFrame({'y': [detect]})).mark_rule(color='red').encode(y='y')
+
+        spreadLine = alt.Chart(pd.DataFrame({'y': [spread]})).mark_rule(color='orange').encode(y='y')
+
         full_chart = chart + detectLine + spreadLine
         st.altair_chart(full_chart)
 

@@ -27,11 +27,10 @@ with col1:
     # define color scheme
     colorScheme = st.selectbox('Select color palette', ('viridis_r','plasma_r', 'inferno_r', 'magma_r', 'cividis_r', 'RdYlGn_r'))
     # define color scheme
-    classScheme = st.selectbox('Select classification scheme', ('std_mean', 'equal_interval', 'fisher_jenks', 
+    classScheme = st.selectbox('Select classification scheme', ('natural_breaks', 'equal_interval', 'fisher_jenks', 
                                                                 # 'fisher_jenks_sampled', 'headtail_breaks', 'jenks_caspall', 
                                                                 # 'jenks_caspall_forced', 'jenks_caspall_sampled', 'max_p_classifier', 
-                                                                'maximum_breaks', 'quantiles', 
-                                                                'percentiles', 'natural_breaks'))
+                                                                'maximum_breaks', 'quantiles', 'std_mean', 'percentiles'))
 
     numClass = st.selectbox('Select number of classes', (5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
 
@@ -51,11 +50,11 @@ with col2:
                 # legend_kwds={"fmt": "{:.0f}"},  # Remove decimals in legend
             )
             plt.axis('off')
-            plt.legend(['Legend'], loc='upper left')
+            # plt.legend(fontsize=4) # plt.legend(['Legend'], loc='upper left')
             plt.xlim(-1300000, -800000)
             plt.ylim(7290000, 7850000)
-            plt.title(uploaded_file.name)
-            st.pyplot(fig)
+            # plt.title(uploaded_file.name)
+            st.pyplot(fig, use_container_width=False)
             
         with tab2:
             st.write(data)
