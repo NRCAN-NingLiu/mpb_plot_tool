@@ -47,14 +47,14 @@ with col2:
                 cmap=colorScheme,  # Color palette
                 k=numClass,
                 legend=True,  # Add legend
-                # legend_kwds={"fmt": "{:.0f}"},  # Remove decimals in legend
+                legend_kwds={"loc": "center left", "bbox_to_anchor": (1, 0.5)},
             )
             plt.axis('off')
             # plt.legend(fontsize=4) # plt.legend(['Legend'], loc='upper left')
             plt.xlim(-1300000, -800000)
             plt.ylim(7290000, 7850000)
             # plt.title(uploaded_file.name)
-            st.pyplot(fig, use_container_width=False)
+            st.pyplot(fig, use_container_width=True)
             
         with tab2:
             st.write(data)
