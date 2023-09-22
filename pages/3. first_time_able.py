@@ -22,6 +22,7 @@ import pandas as pd
 
 #layout setting
 st.set_page_config(layout="wide")
+
 #Load your x-y data - path 
 xcoord = pd.read_csv('input/x_coord.txt', sep = '\t', header = None, names = ['gridID', 'x'])
 ycoord = pd.read_csv('input/y_coord.txt', sep = '\t', header = None, names = ['gridID', 'y'])
@@ -61,6 +62,7 @@ with col1:
     confirmButton = st.button('Confirm')
 
 with col2:  
+    st.info('On this page, you may upload up to :blue[four] txt or csv files at one time :balloon:')
     if confirmButton:
         for uploaded_file in uploaded_files: 
             data = first_time(join_geom(uploaded_file))
