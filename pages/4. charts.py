@@ -4,10 +4,16 @@ import seaborn as sns
 import pandas as pd
 #layout setting
 st.set_page_config(layout="wide")
-
+m = st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: #3182bd;
+    color:#ffffff;
+}
+</style>""", unsafe_allow_html=True)
 col1, col2 = st.columns([1,3], gap="small")
 with col1:
-    uploaded_file = st.file_uploader(label = 'select files', type = ['txt', 'csv'], accept_multiple_files=False)
+    uploaded_file = st.file_uploader(label = 'Choose a file to plot', type = ['txt', 'csv'], accept_multiple_files=False)
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file, sep = '\t', header = None, names = ['gridID', 'period', 'value'])
         check = data['value'].isnull().values.all()
@@ -21,7 +27,7 @@ with col1:
 
     confirmButton = st.button('Confirm')
 
-    showData = st.checkbox('show data')
+    showData = st.checkbox('show raw data')
     if showData:
         st.write(data)
 

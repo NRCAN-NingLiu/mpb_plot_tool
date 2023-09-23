@@ -5,6 +5,13 @@ import numpy as np
 import seaborn as sns
 
 st.set_page_config(layout="wide")
+m = st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: #3182bd;
+    color:#ffffff;
+}
+</style>""", unsafe_allow_html=True)
 
 #Load your x-y data - path 
 xcoord = pd.read_csv('input/x_coord.txt', sep = '\t', header = None, names = ['gridID', 'x'])
@@ -21,58 +28,58 @@ def get_color(cmap, iter):
     palette = list(reversed(sns.color_palette(cmap, iter).as_hex()))
     return palette
 
-col1, col2 = st.columns([1,3], gap="small")
-with col1:
-    uploaded_file = st.file_uploader(label = 'select files', type = ['txt', 'csv'], accept_multiple_files=False)
-    if uploaded_file is not None:
-        raw = join_geom(uploaded_file)
-        check = raw['value'].isnull().values.all()
-        if check:
-            st.subheader('Error: Expecting 3 columns input, only 2 columns found.')
-    # define color scheme
-    colorScheme = st.selectbox('Select color palette', ('set1', "dark2", 'set2','viridis', 'turbo'))
+uploaded_file = st.file_uploader(label = 'Choose a file to plot', type = ['txt', 'csv'], accept_multiple_files=False)
+if uploaded_file is not None:
+    raw = join_geom(uploaded_file)
+    check = raw['value'].isnull().values.all()
+    if check:
+        st.subheader('Error: Expecting 3 columns input, only 2 columns found.')
 
+col1, col2 = st.columns([0.8, 0.6])
+with col1:
+    # define color scheme
+    colorScheme = st.selectbox('Color palette', ('set1', "dark2", 'set2','viridis', 'turbo'))
+with col2:
     confirmButton = st.button('Confirm')
 
-with col2:
-    st.info('You may click on :blue[legend] to display plot of one specific period :sunglasses:')
-    if confirmButton:
-        tab1, tab2 = st.tabs(['plot', 'raw data'])
+st.info('You may click on :red[legend] to display plot of one specific period :sunglasses:')
+if confirmButton:
+    tab1, tab2 = st.tabs(['plot', 'raw data'])
 
-        with tab1:
-            data = raw.sort_values(by='period', ascending=False)
-            selection = alt.selection_point(fields=['period'])
-            color = alt.condition(
-                selection,
-                alt.Color('period:O').legend(None).scale(scheme=colorScheme),
-                alt.value('lightgray'),
-            )
-            opacity = alt.condition(
-                selection,
-                alt.value(1),
-                alt.value(0.1)
-            )
+    with tab1:
+        data = raw.sort_values(by='period', ascending=False)
+        selection = alt.selection_point(fields=['period'])
+        color = alt.condition(
+            selection,
+            alt.Color('period:O').legend(None).scale(scheme=colorScheme),
+            alt.value('lightgray'),
+        )
+        opacity = alt.condition(
+            selection,
+            alt.value(1),
+            alt.value(0.1)
+        )
 
-            periods = alt.Chart(data).mark_point(filled=True).encode(
-                alt.X('x').scale(domain=(-1300000, -800000)).axis(labels=False), 
-                alt.Y('y').scale(domain=(7290000, 7850000)).axis(labels=False),
-                color=color,
-                opacity=opacity,
-                size=alt.Size('value:Q', legend=None, scale=alt.Scale(range=[10, 100]))
-            ).properties(
-                width=600,
-                height=500
-            )
-            legend = alt.Chart(data).mark_point(size=60).encode(
-                alt.Y('period:O').axis(orient='right'),
-                color=color,
-                opacity=opacity
-            ).add_params(
-                selection
-            )
+        periods = alt.Chart(data).mark_point(filled=True).encode(
+            alt.X('x').scale(domain=(-1300000, -800000)).axis(labels=False), 
+            alt.Y('y').scale(domain=(7290000, 7850000)).axis(labels=False),
+            color=color,
+            opacity=opacity,
+            size=alt.Size('value:Q', legend=None, scale=alt.Scale(range=[10, 100]))
+        ).properties(
+            width=600,
+            height=500
+        )
+        legend = alt.Chart(data).mark_point(size=60).encode(
+            alt.Y('period:O').axis(orient='right'),
+            color=color,
+            opacity=opacity
+        ).add_params(
+            selection
+        )
 
-            full_chart = legend | periods
-            st.altair_chart(full_chart) #, use_container_width=True
+        full_chart = legend | periods
+        st.altair_chart(full_chart) #, use_container_width=True
 
-        with tab2:
-            st.write(raw)
+    with tab2:
+        st.write(raw)

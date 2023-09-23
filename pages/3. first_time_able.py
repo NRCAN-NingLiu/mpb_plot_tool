@@ -22,7 +22,13 @@ import pandas as pd
 
 #layout setting
 st.set_page_config(layout="wide")
-
+m = st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: #3182bd;
+    color:#ffffff;
+}
+</style>""", unsafe_allow_html=True)
 #Load your x-y data - path 
 xcoord = pd.read_csv('input/x_coord.txt', sep = '\t', header = None, names = ['gridID', 'x'])
 ycoord = pd.read_csv('input/y_coord.txt', sep = '\t', header = None, names = ['gridID', 'y'])
@@ -50,7 +56,8 @@ marker_symbols = ['.', 'o', 'v', '^', '<', '>', '8', 's', 'p', '*', 'h', 'H', 'D
 col1, col2 = st.columns([1,3], gap="small")
 
 with col1:
-    uploaded_files = st.file_uploader(label = 'select files', type = ['txt', 'csv'], accept_multiple_files=True)
+    st.info('On this page, you may upload up to :blue[four] txt or csv files at one time :balloon:')
+    uploaded_files = st.file_uploader(label = 'Choose files to plot', type = ['txt', 'csv'], accept_multiple_files=True)
     # st.write('Recommend to upload q.txt, u.txt, v.txt, and z.txt only')
     meaning = pd.DataFrame({'file name': ['q', 'u', 'v', 'z'], 'meaning': ['treated', 'infested', 'detectable', 'spread propagules'],})
     meaning = meaning.set_index(meaning.columns[0])
@@ -62,7 +69,7 @@ with col1:
     confirmButton = st.button('Confirm')
 
 with col2:  
-    st.info('On this page, you may upload up to :blue[four] txt or csv files at one time :balloon:')
+
     if confirmButton:
         for uploaded_file in uploaded_files: 
             data = first_time(join_geom(uploaded_file))
