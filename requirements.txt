@@ -1,0 +1,8 @@
+pandas
+geopandas
+altair
+streamlit
+matplotlib
+numpy
+leafmap
+seaborn
