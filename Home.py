@@ -12,33 +12,33 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.subheader('choropleth map')
     st.write('takes two columns input like:')
-    st.image('input/input2col.png', width=120)
+    st.image('img/input2col.png', width=120)
     st.write('Map will be plotted on a open street basemap, potential to change/add basemap, make request if needed.')
-    st.image("input/choropleth1.jpg")
+    st.image("img/choropleth1.JPG")
 
 with col2:
     st.subheader('first time plots')
     st.write('takes three columns input like:')
-    st.image('input/input3col.jpg', width=150)
+    st.image('img/input3col.JPG', width=150)
     st.markdown('''
                 To plot the maps of a site being *treated or infested*, or becoming *detectable or spreading propagules*
                  ''')
-    st.image("input/all1st.jpg")    
+    st.image("img/all1st.JPG")    
 
 
 with col3:
     st.subheader('plot by period')
     st.write('takes three columns input like:')
-    st.image('input/input3col.jpg', width=150)   
+    st.image('img/input3col.JPG', width=150)   
     st.write('After plotting, you may lick on the legend to show plot of each period') 
-    st.image("input/pbp_all.png")
-    st.image("input/pbp_2.jpg")
+    st.image("img/pbp_all.png")
+    st.image("img/pbp_2.jpg")
 
 with col4:
     st.subheader('charts')
     st.write('takes three columns input like:')
-    st.image('input/input3col.jpg', width=150)
+    st.image('img/input3col.JPG', width=150)
     st.write('Plotting treatment frequency chart currently. ')
-    st.image("input/chart.jpg")
+    st.image("img/chart.JPG")
 
 
