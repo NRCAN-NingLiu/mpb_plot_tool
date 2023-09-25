@@ -20,7 +20,7 @@ with col1:
         if check:
             st.subheader('Error: Expecting 3 columns input, only 2 columns found.')
 
-    ylim = st.slider('Select y axis display range', 0.01, 0.1, 0.05)
+    # ylim = st.slider('Select y axis display range', 0.01, 0.1, 0.05)
 
     spread = st.number_input('Set min spreading threshold', value=0.02, format="%.4f")
     detect = st.number_input('Set min detectable threshold', value=0.008, format="%.4f")
@@ -35,12 +35,13 @@ with col2:
     if confirmButton:
         chart = alt.Chart(data).mark_point().encode(
             alt.X('period'), 
-            alt.Y('value').scale(domain=(0, ylim)),
+            alt.Y('value').scale(domain=(0, 0.05)), 
+            color='period:N',
             tooltip=['gridID', 'period', 'value']
         ).properties(
             width=600,
             height=600
-        )
+        ).interactive()
         
         detectLine = alt.Chart(pd.DataFrame({'y': [detect]})).mark_rule(color='red').encode(y='y')
 
